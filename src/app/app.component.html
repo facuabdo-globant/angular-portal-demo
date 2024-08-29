@@ -1,2 +1,5 @@
 <div id="dynamic-container"></div>
+<div id="characters-container">
+  <pre> {{ rmCharacters | async | json }} </pre>
+</div>
 <button (click)="closePortal()">Click here to close the portal</button>

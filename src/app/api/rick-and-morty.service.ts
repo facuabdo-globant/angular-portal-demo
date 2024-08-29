@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,5 +11,7 @@ export class RickAndMortyService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getCharacters() {}
+  getCharacters() {
+    return this.httpClient.get(`${this.apiURL}/${this.characterSegment}`);
+  }
 }

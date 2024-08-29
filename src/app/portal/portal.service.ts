@@ -6,9 +6,9 @@ import {
   Injector,
   inject,
 } from '@angular/core';
-import { ComponentPortal, ComponentType } from './portal';
+import { ComponentPortal, ComponentType, Portal } from './portal';
 import { DOCUMENT } from '@angular/common';
-import { IPortalOutlet, PortalOutlet } from './portal-outlet';
+import { PortalOutlet } from './portal-outlet';
 
 @Injectable({
   providedIn: 'root',
@@ -41,12 +41,21 @@ export class PortalService {
     const portal = new ComponentPortal(component);
     portalOutlet!.attach<T, any>(portal);
 
-    return portalOutlet;
+    return new PortalRef(portalOutlet, portal);
   }
 
   private createContainerElement() {
     const containerElement = this.document.createElement('div');
     containerElement.id = `dynamic-container${Math.round(Math.random() * 100)}`;
     return this.document.body.appendChild(containerElement);
+  }
+}
+
+export class PortalRef<T> {
+  constructor(public portalOutlet: PortalOutlet, private portal: Portal<T>) {}
+
+  closePortal() {
+    this.portalOutlet.detach();
+    this.portalOutlet.dispose();
   }
 }
