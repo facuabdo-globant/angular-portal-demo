@@ -1,10 +1,9 @@
 import {
   ComponentFactoryResolver,
   Injector,
-  TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { IPortalOutlet, PortalOutlet } from './portal-outlet';
+import { IPortalOutlet } from './portal-outlet';
 
 export interface ComponentType<T> {
   new (...args: any[]): T;
@@ -25,6 +24,10 @@ export abstract class Portal<T> {
       this.attachedHost = null;
       host.detach();
     }
+  }
+
+  get isAttached(): boolean {
+    return this.attachedHost != null;
   }
 
   setAttachedHost(host: IPortalOutlet | null) {
@@ -56,8 +59,5 @@ export class ComponentPortal<T> extends Portal<T> {
 }
 
 export class TemplatePortal<C> extends Portal<C> {
-  //   templateRef: TemplateRef<C>;
-  //   viewContainerRef: ViewContainerRef | null;
-  //   context?: C;
-  //   injector?: Injector;
+  //to implement
 }

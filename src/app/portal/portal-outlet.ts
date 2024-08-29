@@ -38,7 +38,14 @@ export class PortalOutlet implements IPortalOutlet {
   }
 
   dispose(): void {
-    throw new Error('Method not implemented.');
+    if (this.hasAttached()) {
+      this.detach();
+    }
+
+    if (this.disposeFn) {
+      this.disposeFn();
+      this.disposeFn = null;
+    }
   }
 
   hasAttached(): boolean {
@@ -80,6 +87,7 @@ export class PortalOutlet implements IPortalOutlet {
 
     return componentRef;
   }
+
   private attachTemplatePortal<C>(config: TemplatePortal<C>) {}
 
   private setDisposeFn(fn: () => void) {
