@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AltDynamicComponent } from './alt-dynamic/alt-dynamic.component';
-import { DynamicComponent } from './dynamic/dynamic.component';
+import { AltDynamicComponent } from './components/alt-dynamic/alt-dynamic.component';
+import { DynamicComponent } from './components/dynamic/dynamic.component';
 import { PortalOutlet } from 'src/app/portal/portal-outlet';
 import { PortalService } from './portal/portal.service';
 
