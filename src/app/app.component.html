@@ -1,5 +1,11 @@
-<div id="dynamic-container"></div>
-<div id="characters-container">
-  <pre> {{ rmCharacters | async | json }} </pre>
-</div>
-<button (click)="closePortal()">Click here to close the portal</button>
+<main class="main-container">
+  <header class="logo">
+    <img class="rm-logo" src="assets/rick-morty-logo.svg" alt="Rick&Morty" />
+  </header>
+  <nav class="buttons-container">
+    <p-button label="Show Characters" />
+    <p-button label="Show Locations" />
+    <p-button label="Show Episodes" />
+  </nav>
+  <section id="dynamic-container"></section>
+</main>

@@ -1,0 +1,67 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.8)
+    ),
+    url("/assets/wallpaper.png");
+  background-size: auto;
+  background-position-x: center;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem 1rem 3rem 1rem;
+  width: 100%;
+
+  img {
+    display: block;
+    max-height: 130px;
+    width: auto;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: min-content;
+  }
+
+  @media screen and (min-width: 1280px) {
+    justify-content: flex-start;
+  }
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  width: min-content;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+
+  p-button:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    p-button {
+      &:not(:last-child) {
+        margin-bottom: 0;
+        margin-right: 2rem;
+      }
+    }
+    flex-direction: row;
+  }
+}
