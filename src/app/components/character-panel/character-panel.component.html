@@ -28,16 +28,6 @@
             <span style="font-weight: 700">Location:</span>
             {{ character.location?.name || "Unknown" }}
           </p>
-          <p>
-            <span style="font-weight: 700">Appearing episodes: </span>
-            @for (episode of character.episode; track $index; let last = $last)
-            {
-            <span>{{
-              episode.substring(episode.lastIndexOf("/") + 1, episode.length)
-            }}</span
-            >{{ last ? "" : "," }}
-            }
-          </p>
         </p-card>
       </div>
     </ng-template>
