@@ -18,12 +18,17 @@ export class AppComponent implements OnInit {
   portalRef: PortalRef<any> | null = null;
   rmCharacters: Observable<any> | null = null;
 
-  constructor(
-    private portalService: PortalService,
-    private rickAndMortyService: RickAndMortyService
-  ) {}
+  constructor(private portalService: PortalService) {}
 
   ngOnInit(): void {}
+
+  async showCharactersPanel() {
+    const { CharacterPanelComponent } = await import('./components/character-panel/character-panel.component');
+    this.portalService.insertComponentInElementById(
+      CharacterPanelComponent,
+      'dynamic-container'
+    );
+  }
 
   closePortal() {
     this.portalRef?.closePortal();

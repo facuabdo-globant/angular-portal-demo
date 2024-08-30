@@ -1,1 +1,53 @@
-<p>character-panel works!</p>
+<ng-container
+  *ngIf="{
+    characterData: characterData$ | async
+  } as vm"
+>
+  <p-panel header="Header">
+    <p-carousel
+      [value]="vm.characterData?.results || []"
+      [numVisible]="3"
+      [numScroll]="3"
+      [circular]="false"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template let-character pTemplate="item">
+        <p-card [header]="character.name">
+          <ng-template pTemplate="header">
+            <img alt="Card" [src]="character.image" />
+          </ng-template>
+          <p>
+            <span style="font-weight: 700">Status:</span>
+            {{ character.status || "Unknown" }}
+          </p>
+          <p>
+            <span style="font-weight: 700">Species:</span>
+            {{ character.species || "Unknown" }}
+          </p>
+          <p>
+            <span style="font-weight: 700">Gender:</span>
+            {{ character.gender || "Unknown" }}
+          </p>
+          <p>
+            <span style="font-weight: 700">Origin:</span>
+            {{ character.origin?.name || "Unknown" }}
+          </p>
+          <p>
+            <span style="font-weight: 700">Location:</span>
+            {{ character.location?.name || "Unknown" }}
+          </p>
+          <p>
+            <span style="font-weight: 700">Appearing episodes: </span>
+            @for (episode of character.episode; track $index; let last = $last)
+            {
+            <span>{{
+              episode.substring(episode.lastIndexOf("/") + 1, episode.length)
+            }}</span
+            >{{ last ? "" : "," }}
+            }
+          </p>
+        </p-card>
+      </ng-template>
+    </p-carousel>
+  </p-panel>
+</ng-container>
