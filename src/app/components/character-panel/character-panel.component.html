@@ -1,20 +1,16 @@
-<ng-container
-  *ngIf="{
-    characterData: characterData$ | async
-  } as vm"
->
-  <p-panel header="Header">
-    <p-carousel
-      [value]="vm.characterData?.results || []"
-      [numVisible]="3"
-      [numScroll]="3"
-      [circular]="false"
-      [responsiveOptions]="responsiveOptions"
-    >
-      <ng-template let-character pTemplate="item">
+<p-panel header="Rick & Morty Characters">
+  <p-carousel
+    [value]="characterData()?.results || []"
+    [numVisible]="3"
+    [numScroll]="3"
+    [circular]="false"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template let-character pTemplate="item">
+      <div class="m-2">
         <p-card [header]="character.name">
           <ng-template pTemplate="header">
-            <img alt="Card" [src]="character.image" />
+            <img alt="Card" lazy="true" [src]="character.image" />
           </ng-template>
           <p>
             <span style="font-weight: 700">Status:</span>
@@ -47,7 +43,7 @@
             }
           </p>
         </p-card>
-      </ng-template>
-    </p-carousel>
-  </p-panel>
-</ng-container>
+      </div>
+    </ng-template>
+  </p-carousel>
+</p-panel>

@@ -20,6 +20,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
+  padding-top: 2rem;
   padding-bottom: 3rem;
   width: 100%;
 
@@ -33,11 +34,13 @@
   }
 
   @media screen and (min-width: 768px) {
-    width: min-content;
+    align-self: center;
+    width: fit-content;
+    min-width: 200px;
   }
 
   @media screen and (min-width: 1280px) {
-    justify-content: flex-start;
+    align-self: flex-start;
   }
 }
 
@@ -47,10 +50,14 @@
   align-self: center;
   justify-content: center;
   align-items: center;
-  width: min-content;
+  width: auto;
   padding: 1rem 2rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
+
+  p-button {
+    width: 100%;
+  }
 
   p-button:not(:last-child) {
     margin-bottom: 1rem;
@@ -69,4 +76,10 @@
 
 .widget-container {
   margin-top: 3rem;
+}
+
+:host::ng-deep {
+  .p-button-label {
+    text-wrap: nowrap;
+  }
 }
