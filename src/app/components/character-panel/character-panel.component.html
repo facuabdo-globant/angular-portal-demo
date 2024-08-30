@@ -1,21 +1,17 @@
 <p-panel header="Rick & Morty Characters">
   <p-carousel
     [value]="characterData()?.results || []"
-    [numVisible]="3"
-    [numScroll]="3"
+    [numVisible]="4"
+    [numScroll]="4"
     [circular]="false"
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template let-character pTemplate="item">
       <div class="m-2">
-        <p-card [header]="character.name">
+        <p-card [header]="character.name" [subheader]="'Status: ' + character.status || 'Unknown' ">
           <ng-template pTemplate="header">
             <img alt="Card" lazy="true" [src]="character.image" />
           </ng-template>
-          <p>
-            <span style="font-weight: 700">Status:</span>
-            {{ character.status || "Unknown" }}
-          </p>
           <p>
             <span style="font-weight: 700">Species:</span>
             {{ character.species || "Unknown" }}

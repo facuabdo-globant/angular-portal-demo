@@ -21,8 +21,8 @@ export class CharacterPanelComponent {
   responsiveOptions = [
     {
       breakpoint: '1280px',
-      numVisible: 3,
-      numScroll: 3,
+      numVisible: 4,
+      numScroll: 4,
     },
     {
       breakpoint: '1024px',

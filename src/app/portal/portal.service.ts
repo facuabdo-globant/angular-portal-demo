@@ -29,17 +29,17 @@ export class PortalService {
       ? (this.document.getElementById(id) as Element)
       : (this.createContainerElement() as Element);
 
-    const portalOutlet = externalPortalOutlet
-      ? externalPortalOutlet
-      : new PortalOutlet(
-          outletElement,
-          this.componentFactoryResolver,
-          this.appRef,
-          this.injector
-        );
+    const portalOutlet =
+      externalPortalOutlet ||
+      new PortalOutlet(
+        outletElement,
+        this.componentFactoryResolver,
+        this.appRef,
+        this.injector
+      );
 
     const portal = new ComponentPortal(component);
-    portalOutlet!.attach<T, any>(portal);
+    portalOutlet.attach<T, any>(portal);
 
     return new PortalRef(portalOutlet, portal);
   }

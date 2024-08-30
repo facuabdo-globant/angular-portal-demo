@@ -16,8 +16,6 @@ import { RickAndMortyService } from './api/rick-and-morty.service';
 })
 export class AppComponent implements OnInit {
   portalRef: PortalRef<any> | null = null;
-  rmCharacters: Observable<any> | null = null;
-
   constructor(private portalService: PortalService) {}
 
   ngOnInit(): void {}
