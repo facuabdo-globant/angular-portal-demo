@@ -1,0 +1,9 @@
+.m-2 {
+  margin: 0.5rem;
+}
+
+:host::ng-deep {
+  .p-card-body {
+    padding: 0 1rem;
+  }
+}

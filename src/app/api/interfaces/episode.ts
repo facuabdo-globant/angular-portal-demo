@@ -4,6 +4,7 @@ export interface Episode {
   air_date: string;
   episode: string;
   characters: string[];
+  url: string;
 }
 
 export interface EpisodeList {

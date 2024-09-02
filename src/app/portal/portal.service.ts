@@ -1,12 +1,13 @@
 import {
   ApplicationRef,
   ComponentFactoryResolver,
-  Inject,
   Injectable,
   Injector,
+  ViewContainerRef,
   inject,
 } from '@angular/core';
 import { ComponentPortal, ComponentType, Portal } from './portal';
+
 import { DOCUMENT } from '@angular/common';
 import { PortalOutlet } from './portal-outlet';
 
@@ -17,9 +18,15 @@ export class PortalService {
   private componentFactoryResolver = inject(ComponentFactoryResolver);
   private appRef = inject(ApplicationRef);
   private injector = inject(Injector);
+  private vcr = inject(ViewContainerRef);
+  private document = inject(DOCUMENT);
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
-
+  /**
+   * @param component The rendered component's type
+   * @param id Id of the HTML element where we're injecting the component
+   * @param externalPortalOutlet The outlet where we're rendering the component
+   * @returns A reference to the outlet that allows to clean it
+   */
   insertComponentInElementById<T>(
     component: ComponentType<T>,
     id?: string,
@@ -38,7 +45,7 @@ export class PortalService {
         this.injector
       );
 
-    const portal = new ComponentPortal(component);
+    const portal = new ComponentPortal(component, this.vcr || null);
     portalOutlet.attach<T, any>(portal);
 
     return new PortalRef(portalOutlet, portal);

@@ -9,10 +9,16 @@
       (onClick)="showCharactersPanel()"
     />
     <p-button [style]="{ width: '100%' }" label="Show Locations" />
-    <p-button [style]="{ width: '100%' }" label="Show Episodes" />
+    <p-button
+      [style]="{ width: '100%' }"
+      label="Show Episodes"
+      (onClick)="showEpisodesPanel()"
+    />
   </nav>
   <section id="dynamic-container" class="widget-container"></section>
   <footer class="credits">
-    <p>Built using the <a href="https://rickandmortyapi.com">Rick & Morty API</a></p>
+    <p>
+      Built using the <a href="https://rickandmortyapi.com">Rick & Morty API</a>
+    </p>
   </footer>
 </main>

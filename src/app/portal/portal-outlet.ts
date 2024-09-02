@@ -4,7 +4,6 @@ import {
   ComponentRef,
   EmbeddedViewRef,
   Injector,
-  inject,
 } from '@angular/core';
 import { ComponentPortal, Portal, TemplatePortal } from './portal';
 
@@ -55,11 +54,6 @@ export class PortalOutlet implements IPortalOutlet {
   private attachComponentPortal<T>(
     portal: ComponentPortal<T>
   ): ComponentRef<T> {
-    const resolver = (portal.componentFactoryResolver ||
-      this.componentFactoryResolver)!;
-
-    const componentFactory = resolver.resolveComponentFactory(portal.component);
-
     let componentRef: ComponentRef<T>;
 
     if (portal.viewContainerRef) {
@@ -67,6 +61,13 @@ export class PortalOutlet implements IPortalOutlet {
 
       this.setDisposeFn(() => componentRef.destroy());
     } else {
+      const resolver = (portal.componentFactoryResolver ||
+        this.componentFactoryResolver)!;
+
+      const componentFactory = resolver.resolveComponentFactory(
+        portal.component
+      );
+
       componentRef = componentFactory.create(
         portal.injector || this.defaultInjector || Injector.NULL
       );
