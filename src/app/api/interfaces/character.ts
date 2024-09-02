@@ -1,9 +1,9 @@
-export interface Origin {
+export interface OriginRef {
   name: string;
   url: string;
 }
 
-export interface Location {
+export interface LocationRef {
   name: string;
   url: string;
 }
@@ -15,8 +15,8 @@ export interface Character {
   species: string;
   type: string;
   gender: string;
-  origin: Origin;
-  location: Location;
+  origin: OriginRef;
+  location: LocationRef;
   image: string;
   episode: string[];
   url: string;

@@ -1,6 +1,7 @@
 import { Character } from './character';
+import { Episode } from './episode';
 
-export interface Info {
+export interface PaginationData {
   count: number;
   pages: number;
   next: string | null;
@@ -8,8 +9,9 @@ export interface Info {
 }
 
 export interface RickAndMortyResponse<T> {
-  info: Info;
+  info: PaginationData;
   results: T[];
 }
 
 export interface CharacterResponse extends RickAndMortyResponse<Character> {}
+export interface EpisodeResponse extends RickAndMortyResponse<Episode> {}
