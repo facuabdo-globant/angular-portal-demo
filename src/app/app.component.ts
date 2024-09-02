@@ -25,7 +25,8 @@ export class AppComponent {
     const { CharacterPanelComponent } = await import(
       './components/character-panel/character-panel.component'
     );
-    this.portalService.insertComponentInElementById(
+
+    this.portalRef = this.portalService.insertComponentInElementById(
       CharacterPanelComponent,
       'dynamic-container'
     );
@@ -39,7 +40,8 @@ export class AppComponent {
     const { EpisodePanelComponent } = await import(
       './components/episode-panel/episode-panel.component'
     );
-    this.portalService.insertComponentInElementById(
+
+    this.portalRef = this.portalService.insertComponentInElementById(
       EpisodePanelComponent,
       'dynamic-container'
     );

@@ -13,12 +13,12 @@ import { lastValueFrom } from 'rxjs';
 const responsiveOptions = [
   {
     breakpoint: '1280px',
-    numVisible: 4,
-    numScroll: 4,
+    numVisible: 10,
+    numScroll: 5,
   },
   {
     breakpoint: '1024px',
-    numVisible: 2,
+    numVisible: 5,
     numScroll: 2,
   },
   {

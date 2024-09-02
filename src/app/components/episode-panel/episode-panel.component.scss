@@ -4,6 +4,13 @@
 
 :host::ng-deep {
   .p-card-body {
-    padding: 0 1rem;
+    padding: 1rem;
+  }
+
+  .p-card-content {
+    padding: 0;
+    h5 {
+      margin: 0;
+    }
   }
 }
