@@ -1,7 +1,7 @@
+<h1 class="panel-title">Rick & Morty Episodes</h1>
 @for (episode of episodeData()?.results; track $index) {
-  <p-panel header="Rick & Morty Episodes" [style]="{ 'margin-bottom': '1rem' }">
+  <p-panel [header]="episode.episode" [style]="{ 'margin-bottom': '1rem' }">
     <p-card
-      [header]="episode.episode"
       [subheader]="'Aired on: ' + episode.air_date || 'Unkwnown'">
       @if (charactersLoading()[episode.url] === true) {
         <h3>Loading...</h3>

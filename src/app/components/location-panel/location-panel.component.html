@@ -1,8 +1,10 @@
+<h1 class="panel-title">Rick & Morty Locations</h1>
 @for (location of locationData()?.results; track $index) {
-  <p-panel
-    header="Rick & Morty Locations"
-    [style]="{ 'margin-bottom': '1rem' }">
-    <p-card [header]="location.name" [subheader]="location.type">
+  <p-panel [header]="location.name" [style]="{ 'margin-bottom': '1rem' }">
+    <p-card [subheader]="'Location type: ' + location.type">
+      <div class="p-subtitle" style="margin-bottom: 1rem">
+        Dimension: {{ location.dimension }}
+      </div>
       @if (charactersLoading()[location.url] === true) {
         <h3>Loading...</h3>
       } @else if (error()[location.url]) {
