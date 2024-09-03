@@ -43,6 +43,8 @@ const responsiveOptions = [
 })
 export class EpisodePanelComponent implements OnInit {
   private episodeResponse: EpisodeResponse | undefined = undefined;
+  charactersLoading = signal<{ [key: string]: boolean }>({});
+  error = signal<{ [key: string]: boolean }>({});
   episodeData = signal<EpisodeResponse | undefined>(this.episodeResponse);
   characterData = signal<{ [key: string]: Character[] }>({});
   hideCharacters = signal<{ [key: string]: boolean }>({});
@@ -71,13 +73,29 @@ export class EpisodePanelComponent implements OnInit {
         );
       });
 
-      const episodeCharacters: Character[] = await Promise.all(
-        Object.values(characterRequestArray)
-      );
+      try {
+        this.charactersLoading.update((loadingFlags) => {
+          return { ...loadingFlags, [episodeUrl]: true };
+        });
 
-      this.characterData.update((characters) => {
-        return { ...characters, [episodeUrl]: episodeCharacters };
-      });
+        const locationResidents: Character[] = await Promise.all(
+          Object.values(characterRequestArray)
+        );
+
+        this.characterData.update((characters) => {
+          return { ...characters, [episodeUrl]: locationResidents };
+        });
+      } catch {
+        this.error.update((errorFlags) => {
+          return { ...errorFlags, [episodeUrl]: true };
+        });
+      } finally {
+        setTimeout(() => {
+          this.charactersLoading.update((loadingFlags) => {
+            return { ...loadingFlags, [episodeUrl]: false };
+          });
+        }, 300);
+      }
     }
   }
 

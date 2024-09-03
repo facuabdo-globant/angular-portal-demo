@@ -4,8 +4,14 @@
     [header]="episode.episode"
     [subheader]="'Aired on: ' + episode.air_date || 'Unkwnown'"
   >
-    @if (characterData() && characterData()[episode.url] &&
-    !hideCharacters()[episode.url]) {
+    @if(charactersLoading()[episode.url] === true){
+    <h3>Loading...</h3>
+    } @else if( error()[episode.url]){
+    <h3>An error ocurred loading the episode's characters</h3>
+    } @else if (characterData()[episode.url] !== undefined &&
+    (characterData()[episode.url] || []).length &&
+    (hideCharacters()[episode.url] === false || hideCharacters()[episode.url]
+    === undefined)){
     <p-carousel
       [value]="characterData()[episode.url]"
       [numVisible]="10"
@@ -33,19 +39,23 @@
         </div>
       </ng-template>
     </p-carousel>
+    } @else if ((characterData()[episode.url] || []).length === 0 &&
+    hideCharacters()[episode.url] !== undefined){
+    <h3>No characters in this episode</h3>
     }
 
     <div class="button-container">
       <p-button
         label="Show Characters"
         [disabled]="
-          characterData() &&
-          characterData()[episode.url] &&
-          !hideCharacters()[episode.url]
+          characterData()[episode.url] !== undefined &&
+          (characterData()[episode.url] || []).length &&
+          (hideCharacters()[episode.url] === false ||
+            hideCharacters()[episode.url] === undefined)
         "
         (onClick)="showEpisodeCharacters(episode.url, episode.characters)"
       />
-      @if(characterData() && characterData()[episode.url] &&
+      @if((characterData()[episode.url] || []).length &&
       !hideCharacters()[episode.url]){
       <p-button
         severity="secondary"
