@@ -1,1 +1,62 @@
-<p>location-panel works!</p>
+@for (location of locationData()?.results; track $index) {
+<p-panel header="Rick & Morty Locations" [style]="{ 'margin-bottom': '1rem' }">
+  <p-card [header]="location.name" [subheader]="location.type">
+    @if (characterData()[location.url] !== undefined &&
+    (characterData()[location.url] || []).length &&
+    (hideCharacters()[location.url] === false || hideCharacters()[location.url]
+    === undefined)){
+    <p-carousel
+      [value]="characterData()[location.url]"
+      [numVisible]="10"
+      [numScroll]="5"
+      [circular]="true"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template let-character pTemplate="item">
+        <div class="m-2">
+          <p-card>
+            <ng-template pTemplate="header">
+              <div style="width: 100%; text-align: center">
+                <img
+                  style="display: block"
+                  alt="Card"
+                  lazy="true"
+                  [src]="character.image"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <h5>{{ character.name }}</h5>
+            </ng-template>
+          </p-card>
+        </div>
+      </ng-template>
+    </p-carousel>
+    } @else if ((characterData()[location.url] || []).length === 0 &&
+    hideCharacters()[location.url] !== undefined){
+    <h3>No residents in this location</h3>
+    }
+
+    <div class="button-container">
+      <p-button
+        label="Show Characters"
+        [disabled]="
+          characterData()[location.url] !== undefined &&
+          (characterData()[location.url] || []).length &&
+          (hideCharacters()[location.url] === false ||
+            hideCharacters()[location.url] === undefined)
+        "
+        (onClick)="showLocationInhabitants(location.url, location.residents)"
+      />
+      @if((characterData()[location.url] || []).length &&
+      !hideCharacters()[location.url]){
+      <p-button
+        severity="secondary"
+        label="Hide Characters"
+        (onClick)="toggleLocationInhabitants(location.url, true)"
+      />
+      }
+    </div>
+  </p-card>
+</p-panel>
+}

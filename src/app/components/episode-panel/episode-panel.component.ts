@@ -66,19 +66,17 @@ export class EpisodePanelComponent implements OnInit {
       const characterRequestArray: { [key: string]: Promise<any> } = {};
 
       characterURLs.forEach((url) => {
-        characterRequestArray[url] = fetch(url);
+        characterRequestArray[url] = fetch(url).then((response: Response) =>
+          response.json()
+        );
       });
 
-      const characters = await Promise.all(
+      const episodeCharacters: Character[] = await Promise.all(
         Object.values(characterRequestArray)
       );
 
-      const charactersJson: Character[] = await Promise.all(
-        characters.map((response: Response) => response.json())
-      );
-
       this.characterData.update((characters) => {
-        return { ...characters, [episodeUrl]: charactersJson };
+        return { ...characters, [episodeUrl]: episodeCharacters };
       });
     }
   }

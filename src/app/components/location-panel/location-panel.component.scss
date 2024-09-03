@@ -1,0 +1,53 @@
+.m-2 {
+  margin: 0.5rem;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+
+  p-button {
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media screen and (min-width: 767px) {
+    p-button {
+      width: auto;
+      margin-right: 1rem;
+
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+    }
+
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+
+:host::ng-deep {
+  .p-card-body {
+    padding: 1rem;
+  }
+
+  .p-card-content {
+    padding: 0;
+    h5 {
+      margin: 0;
+    }
+  }
+
+  p-button > .p-button {
+    width: 100%;
+  }
+
+  @media screen and (min-width: 767px) {
+    p-button > .p-button {
+      width: auto;
+    }
+  }
+}

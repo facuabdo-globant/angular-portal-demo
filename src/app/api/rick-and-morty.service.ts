@@ -1,4 +1,8 @@
-import { CharacterResponse, EpisodeResponse } from './interfaces/reponse';
+import {
+  CharacterResponse,
+  EpisodeResponse,
+  LocationResponse,
+} from './interfaces/reponse';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -21,6 +25,12 @@ export class RickAndMortyService {
   getEpisodes(page?: number): Observable<EpisodeResponse> {
     return this.getUrl$<EpisodeResponse>(
       `${this.apiURL}/episode${page ? '?page=' + page : ''}`
+    );
+  }
+
+  getLocations(page?: number): Observable<LocationResponse> {
+    return this.getUrl$<LocationResponse>(
+      `${this.apiURL}/location${page ? '?page=' + page : ''}`
     );
   }
 

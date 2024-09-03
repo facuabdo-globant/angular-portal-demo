@@ -47,6 +47,21 @@ export class AppComponent {
     );
   }
 
+  async showLocationsPanel() {
+    if (this.portalRef) {
+      this.closePortal();
+    }
+
+    const { LocationPanelComponent } = await import(
+      './components/location-panel/location-panel.component'
+    );
+
+    this.portalRef = this.portalService.insertComponentInElementById(
+      LocationPanelComponent,
+      'dynamic-container'
+    );
+  }
+
   closePortal() {
     this.portalRef?.closePortal();
   }
