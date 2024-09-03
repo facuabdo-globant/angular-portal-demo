@@ -4,7 +4,8 @@
     [header]="episode.episode"
     [subheader]="'Aired on: ' + episode.air_date || 'Unkwnown'"
   >
-    @if (characterData() && characterData()[episode.url]) {
+    @if (characterData() && characterData()[episode.url] &&
+    !hideCharacters()[episode.url]) {
     <p-carousel
       [value]="characterData()[episode.url]"
       [numVisible]="10"
@@ -34,10 +35,25 @@
     </p-carousel>
     }
 
-    <p-button
-      label="Show Characters"
-      (onClick)="showEpisodeCharacters(episode.url, episode.characters)"
-    />
+    <div class="button-container">
+      <p-button
+        label="Show Characters"
+        [disabled]="
+          characterData() &&
+          characterData()[episode.url] &&
+          !hideCharacters()[episode.url]
+        "
+        (onClick)="showEpisodeCharacters(episode.url, episode.characters)"
+      />
+      @if(characterData() && characterData()[episode.url] &&
+      !hideCharacters()[episode.url]){
+      <p-button
+        severity="secondary"
+        label="Hide Characters"
+        (onClick)="toggleEpisodeCharacters(episode.url, true)"
+      />
+      }
+    </div>
   </p-card>
 </p-panel>
 }

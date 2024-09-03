@@ -45,6 +45,7 @@ export class EpisodePanelComponent implements OnInit {
   private episodeResponse: EpisodeResponse | undefined = undefined;
   episodeData = signal<EpisodeResponse | undefined>(this.episodeResponse);
   characterData = signal<{ [key: string]: Character[] }>({});
+  hideCharacters = signal<{ [key: string]: boolean }>({});
 
   responsiveOptions = responsiveOptions;
 
@@ -59,20 +60,32 @@ export class EpisodePanelComponent implements OnInit {
   }
 
   async showEpisodeCharacters(episodeUrl: string, characterURLs: string[]) {
-    const characterRequestArray: { [key: string]: Promise<any> } = {};
+    this.toggleEpisodeCharacters(episodeUrl, false);
 
-    characterURLs.forEach((url) => {
-      characterRequestArray[url] = fetch(url);
-    });
+    if (!this.characterData()[episodeUrl]) {
+      const characterRequestArray: { [key: string]: Promise<any> } = {};
 
-    const characters = await Promise.all(Object.values(characterRequestArray));
+      characterURLs.forEach((url) => {
+        characterRequestArray[url] = fetch(url);
+      });
 
-    const charactersJson: Character[] = await Promise.all(
-      characters.map((response: Response) => response.json())
-    );
+      const characters = await Promise.all(
+        Object.values(characterRequestArray)
+      );
 
-    this.characterData.update((characters) => {
-      return { ...characters, [episodeUrl]: charactersJson };
+      const charactersJson: Character[] = await Promise.all(
+        characters.map((response: Response) => response.json())
+      );
+
+      this.characterData.update((characters) => {
+        return { ...characters, [episodeUrl]: charactersJson };
+      });
+    }
+  }
+
+  toggleEpisodeCharacters(episodeUrl: string, value: boolean) {
+    this.hideCharacters.update((characters) => {
+      return { ...characters, [episodeUrl]: value };
     });
   }
 }
