@@ -1,69 +1,70 @@
 @for (episode of episodeData()?.results; track $index) {
-<p-panel header="Rick & Morty Episodes" [style]="{ 'margin-bottom': '1rem' }">
-  <p-card
-    [header]="episode.episode"
-    [subheader]="'Aired on: ' + episode.air_date || 'Unkwnown'"
-  >
-    @if(charactersLoading()[episode.url] === true){
-    <h3>Loading...</h3>
-    } @else if( error()[episode.url]){
-    <h3>An error ocurred loading the episode's characters</h3>
-    } @else if (characterData()[episode.url] !== undefined &&
-    (characterData()[episode.url] || []).length &&
-    (hideCharacters()[episode.url] === false || hideCharacters()[episode.url]
-    === undefined)){
-    <p-carousel
-      [value]="characterData()[episode.url]"
-      [numVisible]="10"
-      [numScroll]="5"
-      [circular]="true"
-      [responsiveOptions]="responsiveOptions"
-    >
-      <ng-template let-character pTemplate="item">
-        <div class="m-2">
-          <p-card>
-            <ng-template pTemplate="header">
-              <div style="width: 100%; text-align: center">
-                <img
-                  style="display: block"
-                  alt="Card"
-                  lazy="true"
-                  [src]="character.image"
-                />
-              </div>
-            </ng-template>
-            <ng-template pTemplate="content">
-              <h5>{{ character.name }}</h5>
-            </ng-template>
-          </p-card>
-        </div>
-      </ng-template>
-    </p-carousel>
-    } @else if ((characterData()[episode.url] || []).length === 0 &&
-    hideCharacters()[episode.url] !== undefined){
-    <h3>No characters in this episode</h3>
-    }
-
-    <div class="button-container">
-      <p-button
-        label="Show Characters"
-        [disabled]="
-          characterData()[episode.url] !== undefined &&
-          (characterData()[episode.url] || []).length &&
-          (hideCharacters()[episode.url] === false ||
-            hideCharacters()[episode.url] === undefined)
-        "
-        (onClick)="showEpisodeCharacters(episode.url, episode.characters)"
-      />
-      @if((characterData()[episode.url] || []).length &&
-      !hideCharacters()[episode.url]){
-      <p-button
-        severity="secondary"
-        label="Hide Characters"
-        (onClick)="toggleEpisodeCharacters(episode.url, true)"
-      />
+  <p-panel header="Rick & Morty Episodes" [style]="{ 'margin-bottom': '1rem' }">
+    <p-card
+      [header]="episode.episode"
+      [subheader]="'Aired on: ' + episode.air_date || 'Unkwnown'">
+      @if (charactersLoading()[episode.url] === true) {
+        <h3>Loading...</h3>
+      } @else if (error()[episode.url]) {
+        <h3>An error ocurred loading the episode's characters</h3>
+      } @else if (
+        characterData()[episode.url] !== undefined &&
+        (characterData()[episode.url] || []).length &&
+        (hideCharacters()[episode.url] === false ||
+          hideCharacters()[episode.url] === undefined)
+      ) {
+        <p-carousel
+          [value]="characterData()[episode.url]"
+          [numVisible]="10"
+          [numScroll]="5"
+          [circular]="true"
+          [responsiveOptions]="responsiveOptions">
+          <ng-template let-character pTemplate="item">
+            <div class="m-2">
+              <p-card>
+                <ng-template pTemplate="header">
+                  <div style="width: 100%; text-align: center">
+                    <img
+                      style="display: block"
+                      alt="Card"
+                      lazy="true"
+                      [src]="character.image" />
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="content">
+                  <h5>{{ character.name }}</h5>
+                </ng-template>
+              </p-card>
+            </div>
+          </ng-template>
+        </p-carousel>
+      } @else if (
+        (characterData()[episode.url] || []).length === 0 &&
+        hideCharacters()[episode.url] !== undefined
+      ) {
+        <h3>No characters in this episode</h3>
       }
-    </div>
-  </p-card>
-</p-panel>
+
+      <div class="button-container">
+        <p-button
+          label="Show Characters"
+          [disabled]="
+            characterData()[episode.url] !== undefined &&
+            (characterData()[episode.url] || []).length &&
+            (hideCharacters()[episode.url] === false ||
+              hideCharacters()[episode.url] === undefined)
+          "
+          (onClick)="showEpisodeCharacters(episode.url, episode.characters)" />
+        @if (
+          (characterData()[episode.url] || []).length &&
+          !hideCharacters()[episode.url]
+        ) {
+          <p-button
+            severity="secondary"
+            label="Hide Characters"
+            (onClick)="toggleEpisodeCharacters(episode.url, true)" />
+        }
+      </div>
+    </p-card>
+  </p-panel>
 }

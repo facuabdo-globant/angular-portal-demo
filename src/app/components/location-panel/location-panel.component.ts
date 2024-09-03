@@ -67,14 +67,14 @@ export class LocationPanelComponent {
     if (!this.characterData()[locationURL]) {
       const characterRequestArray: { [key: string]: Promise<any> } = {};
 
-      characterURLs.forEach((url) => {
+      characterURLs.forEach(url => {
         characterRequestArray[url] = fetch(url).then((response: Response) =>
           response.json()
         );
       });
 
       try {
-        this.charactersLoading.update((loadingFlags) => {
+        this.charactersLoading.update(loadingFlags => {
           return { ...loadingFlags, [locationURL]: true };
         });
 
@@ -82,16 +82,16 @@ export class LocationPanelComponent {
           Object.values(characterRequestArray)
         );
 
-        this.characterData.update((characters) => {
+        this.characterData.update(characters => {
           return { ...characters, [locationURL]: locationResidents };
         });
       } catch {
-        this.error.update((errorFlags) => {
+        this.error.update(errorFlags => {
           return { ...errorFlags, [locationURL]: true };
         });
       } finally {
         setTimeout(() => {
-          this.charactersLoading.update((loadingFlags) => {
+          this.charactersLoading.update(loadingFlags => {
             return { ...loadingFlags, [locationURL]: false };
           });
         }, 300);
@@ -100,7 +100,7 @@ export class LocationPanelComponent {
   }
 
   toggleLocationResidents(locationURL: string, value: boolean) {
-    this.hideCharacters.update((locationCharacters) => {
+    this.hideCharacters.update(locationCharacters => {
       return { ...locationCharacters, [locationURL]: value };
     });
   }

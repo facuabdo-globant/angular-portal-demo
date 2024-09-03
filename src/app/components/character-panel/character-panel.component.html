@@ -4,29 +4,30 @@
     [numVisible]="4"
     [numScroll]="4"
     [circular]="false"
-    [responsiveOptions]="responsiveOptions"
-  >
+    [responsiveOptions]="responsiveOptions">
     <ng-template let-character pTemplate="item">
       <div class="m-2">
-        <p-card [header]="character.name" [subheader]="'Status: ' + character.status || 'Unknown' ">
+        <p-card
+          [header]="character.name"
+          [subheader]="'Status: ' + character.status || 'Unknown'">
           <ng-template pTemplate="header">
             <img alt="Card" lazy="true" [src]="character.image" />
           </ng-template>
           <p>
             <span style="font-weight: 700">Species:</span>
-            {{ character.species || "Unknown" }}
+            {{ character.species || 'Unknown' }}
           </p>
           <p>
             <span style="font-weight: 700">Gender:</span>
-            {{ character.gender || "Unknown" }}
+            {{ character.gender || 'Unknown' }}
           </p>
           <p>
             <span style="font-weight: 700">Origin:</span>
-            {{ character.origin?.name || "Unknown" }}
+            {{ character.origin?.name || 'Unknown' }}
           </p>
           <p>
             <span style="font-weight: 700">Location:</span>
-            {{ character.location?.name || "Unknown" }}
+            {{ character.location?.name || 'Unknown' }}
           </p>
         </p-card>
       </div>

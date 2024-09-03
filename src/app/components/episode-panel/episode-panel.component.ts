@@ -67,14 +67,14 @@ export class EpisodePanelComponent implements OnInit {
     if (!this.characterData()[episodeUrl]) {
       const characterRequestArray: { [key: string]: Promise<any> } = {};
 
-      characterURLs.forEach((url) => {
+      characterURLs.forEach(url => {
         characterRequestArray[url] = fetch(url).then((response: Response) =>
           response.json()
         );
       });
 
       try {
-        this.charactersLoading.update((loadingFlags) => {
+        this.charactersLoading.update(loadingFlags => {
           return { ...loadingFlags, [episodeUrl]: true };
         });
 
@@ -82,16 +82,16 @@ export class EpisodePanelComponent implements OnInit {
           Object.values(characterRequestArray)
         );
 
-        this.characterData.update((characters) => {
+        this.characterData.update(characters => {
           return { ...characters, [episodeUrl]: locationResidents };
         });
       } catch {
-        this.error.update((errorFlags) => {
+        this.error.update(errorFlags => {
           return { ...errorFlags, [episodeUrl]: true };
         });
       } finally {
         setTimeout(() => {
-          this.charactersLoading.update((loadingFlags) => {
+          this.charactersLoading.update(loadingFlags => {
             return { ...loadingFlags, [episodeUrl]: false };
           });
         }, 300);
@@ -100,7 +100,7 @@ export class EpisodePanelComponent implements OnInit {
   }
 
   toggleEpisodeCharacters(episodeUrl: string, value: boolean) {
-    this.hideCharacters.update((characters) => {
+    this.hideCharacters.update(characters => {
       return { ...characters, [episodeUrl]: value };
     });
   }

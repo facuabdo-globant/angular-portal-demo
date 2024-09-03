@@ -59,7 +59,10 @@ export class PortalService {
 }
 
 export class PortalRef<T> {
-  constructor(public portalOutlet: PortalOutlet, private portal: Portal<T>) {}
+  constructor(
+    public portalOutlet: PortalOutlet,
+    private portal: Portal<T>
+  ) {}
 
   closePortal() {
     this.portalOutlet.detach();
