@@ -1,7 +1,11 @@
 @for (location of locationData()?.results; track $index) {
 <p-panel header="Rick & Morty Locations" [style]="{ 'margin-bottom': '1rem' }">
-  <p-card [header]="location.name" [subheader]="location.type">
-    @if (characterData()[location.url] !== undefined &&
+  <p-card [header]="location.name" [subheader]="location.type"
+    >@if(charactersLoading()[location.url] === true){
+    <h3>Loading...</h3>
+    } @else if( error()[location.url]){
+    <h3>An error ocurred loading the location's characters</h3>
+    } @else if (characterData()[location.url] !== undefined &&
     (characterData()[location.url] || []).length &&
     (hideCharacters()[location.url] === false || hideCharacters()[location.url]
     === undefined)){
@@ -46,14 +50,14 @@
           (hideCharacters()[location.url] === false ||
             hideCharacters()[location.url] === undefined)
         "
-        (onClick)="showLocationInhabitants(location.url, location.residents)"
+        (onClick)="showLocationResidents(location.url, location.residents)"
       />
       @if((characterData()[location.url] || []).length &&
       !hideCharacters()[location.url]){
       <p-button
         severity="secondary"
         label="Hide Characters"
-        (onClick)="toggleLocationInhabitants(location.url, true)"
+        (onClick)="toggleLocationResidents(location.url, true)"
       />
       }
     </div>

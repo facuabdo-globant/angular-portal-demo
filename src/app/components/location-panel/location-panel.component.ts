@@ -43,6 +43,8 @@ const responsiveOptions = [
 })
 export class LocationPanelComponent {
   private episodeResponse: LocationResponse | undefined = undefined;
+  charactersLoading = signal<{ [key: string]: boolean }>({});
+  error = signal<{ [key: string]: boolean }>({});
   locationData = signal<LocationResponse | undefined>(this.episodeResponse);
   characterData = signal<{ [key: string]: Character[] }>({});
   hideCharacters = signal<{ [key: string]: boolean }>({});
@@ -59,8 +61,8 @@ export class LocationPanelComponent {
     this.locationData.set(locationData);
   }
 
-  async showLocationInhabitants(locationURL: string, characterURLs: string[]) {
-    this.toggleLocationInhabitants(locationURL, false);
+  async showLocationResidents(locationURL: string, characterURLs: string[]) {
+    this.toggleLocationResidents(locationURL, false);
 
     if (!this.characterData()[locationURL]) {
       const characterRequestArray: { [key: string]: Promise<any> } = {};
@@ -71,17 +73,33 @@ export class LocationPanelComponent {
         );
       });
 
-      const locationInhabitants: Character[] = await Promise.all(
-        Object.values(characterRequestArray)
-      );
+      try {
+        this.charactersLoading.update((loadingFlags) => {
+          return { ...loadingFlags, [locationURL]: true };
+        });
 
-      this.characterData.update((characters) => {
-        return { ...characters, [locationURL]: locationInhabitants };
-      });
+        const locationResidents: Character[] = await Promise.all(
+          Object.values(characterRequestArray)
+        );
+
+        this.characterData.update((characters) => {
+          return { ...characters, [locationURL]: locationResidents };
+        });
+      } catch {
+        this.error.update((errorFlags) => {
+          return { ...errorFlags, [locationURL]: true };
+        });
+      } finally {
+        setTimeout(() => {
+          this.charactersLoading.update((loadingFlags) => {
+            return { ...loadingFlags, [locationURL]: false };
+          });
+        }, 300);
+      }
     }
   }
 
-  toggleLocationInhabitants(locationURL: string, value: boolean) {
+  toggleLocationResidents(locationURL: string, value: boolean) {
     this.hideCharacters.update((locationCharacters) => {
       return { ...locationCharacters, [locationURL]: value };
     });
