@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
-import { ComponentPortal, ComponentType, Portal } from './portal';
+import { ComponentPortal, ComponentType, Portal, PortalRef } from './portal';
 
 import { DOCUMENT } from '@angular/common';
 import { PortalOutlet } from './portal-outlet';
@@ -52,17 +52,5 @@ export class PortalService {
     portalOutlet.attach<T, any>(portal);
 
     return new PortalRef(portalOutlet, portal);
-  }
-}
-
-export class PortalRef<T> {
-  constructor(
-    public portalOutlet: PortalOutlet,
-    private portal: Portal<T>
-  ) {}
-
-  closePortal() {
-    this.portalOutlet.detach();
-    this.portalOutlet.dispose();
   }
 }

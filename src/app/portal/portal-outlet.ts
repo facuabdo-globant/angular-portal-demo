@@ -6,7 +6,7 @@ import {
   Injector,
   createComponent,
 } from '@angular/core';
-import { ComponentPortal, Portal, TemplatePortal } from './portal';
+import { ComponentPortal, Portal, PortalRef, TemplatePortal } from './portal';
 
 export class PortalOutlet implements IPortalOutlet {
   private attachedPortal: Portal<any> | null = null;
@@ -55,9 +55,21 @@ export class PortalOutlet implements IPortalOutlet {
   private attachComponentPortal<T>(
     portal: ComponentPortal<T>
   ): ComponentRef<T> {
+    const portalOutletRef = new PortalRef(this, portal);
+
+    const injector = Injector.create({
+      providers: [
+        {
+          provide: PortalRef,
+          useValue: portalOutletRef,
+        },
+      ],
+      parent: this.defaultInjector || Injector.NULL,
+    });
+
     const componentRef: ComponentRef<T> = createComponent(portal.component, {
       environmentInjector: this.environmentInjector,
-      elementInjector: this.defaultInjector || Injector.NULL,
+      elementInjector: injector,
     });
 
     this.setDisposeFn(() => {

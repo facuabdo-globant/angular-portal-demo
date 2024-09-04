@@ -1,8 +1,8 @@
-import { PortalRef, PortalService } from './portal/portal.service';
-
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { PortalRef } from './portal/portal';
+import { PortalService } from './portal/portal.service';
 import { RickAndMortyService } from './api/rick-and-morty.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { RickAndMortyService } from './api/rick-and-morty.service';
   providers: [PortalService, RickAndMortyService],
 })
 export class AppComponent {
-  portalRef: PortalRef<any> | null = null;
+  portalRef: PortalRef<any> | undefined;
   constructor(private portalService: PortalService) {}
 
   async showCharactersPanel() {

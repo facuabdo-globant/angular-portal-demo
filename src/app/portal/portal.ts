@@ -3,7 +3,7 @@ import {
   Injector,
   ViewContainerRef,
 } from '@angular/core';
-import { IPortalOutlet } from './portal-outlet';
+import { IPortalOutlet, PortalOutlet } from './portal-outlet';
 
 export interface ComponentType<T> {
   new (...args: any[]): T;
@@ -60,4 +60,16 @@ export class ComponentPortal<T> extends Portal<T> {
 
 export class TemplatePortal<C> extends Portal<C> {
   //to implement
+}
+
+export class PortalRef<T> {
+  constructor(
+    public portalOutlet: PortalOutlet,
+    private portal: Portal<T>
+  ) {}
+
+  closePortal() {
+    this.portalOutlet.detach();
+    this.portalOutlet.dispose();
+  }
 }
