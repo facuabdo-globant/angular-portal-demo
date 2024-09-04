@@ -1,6 +1,6 @@
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
+  EnvironmentInjector,
   Injectable,
   Injector,
   ViewContainerRef,
@@ -15,11 +15,11 @@ import { PortalOutlet } from './portal-outlet';
   providedIn: 'root',
 })
 export class PortalService {
-  private componentFactoryResolver = inject(ComponentFactoryResolver);
   private appRef = inject(ApplicationRef);
   private injector = inject(Injector);
   private vcr = inject(ViewContainerRef);
   private document = inject(DOCUMENT);
+  private environmentInjector = inject(EnvironmentInjector);
 
   /**
    * @param component The rendered component's type
@@ -40,7 +40,7 @@ export class PortalService {
       externalPortalOutlet ||
       new PortalOutlet(
         outletElement,
-        this.componentFactoryResolver,
+        this.environmentInjector,
         this.appRef,
         this.injector
       );

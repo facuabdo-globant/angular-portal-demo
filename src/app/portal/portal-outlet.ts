@@ -1,9 +1,10 @@
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
   EmbeddedViewRef,
+  EnvironmentInjector,
   Injector,
+  createComponent,
 } from '@angular/core';
 import { ComponentPortal, Portal, TemplatePortal } from './portal';
 
@@ -14,7 +15,7 @@ export class PortalOutlet implements IPortalOutlet {
 
   constructor(
     public outletElement: Element,
-    private componentFactoryResolver?: ComponentFactoryResolver,
+    private environmentInjector: EnvironmentInjector,
     private appRef?: ApplicationRef,
     private defaultInjector?: Injector
   ) {}
@@ -54,32 +55,19 @@ export class PortalOutlet implements IPortalOutlet {
   private attachComponentPortal<T>(
     portal: ComponentPortal<T>
   ): ComponentRef<T> {
-    let componentRef: ComponentRef<T>;
+    const componentRef: ComponentRef<T> = createComponent(portal.component, {
+      environmentInjector: this.environmentInjector,
+      elementInjector: this.defaultInjector || Injector.NULL,
+    });
 
-    if (portal.viewContainerRef) {
-      componentRef = portal.viewContainerRef.createComponent(portal.component);
+    this.setDisposeFn(() => {
+      if (this.appRef!.viewCount > 0) {
+        this.appRef?.detachView(componentRef.hostView);
+      }
+      componentRef.destroy();
+    });
 
-      this.setDisposeFn(() => componentRef.destroy());
-    } else {
-      const resolver = (portal.componentFactoryResolver ||
-        this.componentFactoryResolver)!;
-
-      const componentFactory = resolver.resolveComponentFactory(
-        portal.component
-      );
-
-      componentRef = componentFactory.create(
-        portal.injector || this.defaultInjector || Injector.NULL
-      );
-
-      this.appRef?.attachView(componentRef.hostView);
-      this.setDisposeFn(() => {
-        if (this.appRef!.viewCount > 0) {
-          this.appRef?.detachView(componentRef.hostView);
-        }
-        componentRef.destroy();
-      });
-    }
+    this.appRef?.attachView(componentRef.hostView);
 
     const componentHtmlElement = (componentRef.hostView as EmbeddedViewRef<any>)
       .rootNodes[0] as HTMLElement;
