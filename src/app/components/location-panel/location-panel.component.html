@@ -1,72 +1,89 @@
-<h1 class="panel-title">Rick & Morty Locations</h1>
-@for (location of locationData()?.results; track $index) {
-  <p-panel [header]="location.name" [style]="{ 'margin-bottom': '1rem' }">
-    <p-card [subheader]="'Location type: ' + location.type">
-      <div class="p-subtitle" style="margin-bottom: 1rem">
-        Dimension: {{ location.dimension }}
-      </div>
-      @if (charactersLoading()[location.url] === true) {
-        <h3>Loading...</h3>
-      } @else if (error()[location.url]) {
-        <h3>An error ocurred loading the location's characters</h3>
-      } @else if (
-        characterData()[location.url] !== undefined &&
-        (characterData()[location.url] || []).length &&
-        (hideCharacters()[location.url] === false ||
-          hideCharacters()[location.url] === undefined)
-      ) {
-        <p-carousel
-          [value]="characterData()[location.url]"
-          [numVisible]="10"
-          [numScroll]="5"
-          [circular]="true"
-          [responsiveOptions]="responsiveOptions">
-          <ng-template let-character pTemplate="item">
-            <div class="m-2">
-              <p-card>
-                <ng-template pTemplate="header">
-                  <div style="width: 100%; text-align: center">
-                    <img
-                      style="display: block"
-                      alt="Card"
-                      lazy="true"
-                      [src]="character.image" />
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="content">
-                  <h5>{{ character.name }}</h5>
-                </ng-template>
-              </p-card>
-            </div>
-          </ng-template>
-        </p-carousel>
-      } @else if (
-        (characterData()[location.url] || []).length === 0 &&
-        hideCharacters()[location.url] !== undefined
-      ) {
-        <h3>No residents in this location</h3>
-      }
+<p-panel>
+  <ng-template pTemplate="header">
+    <p class="p-panel-title">Rick & Morty Locations</p>
+    <div>
+      <p-button
+        icon="pi pi-times"
+        [outlined]="true"
+        severity="secondary"
+        (onClick)="closePanel()" />
+    </div>
+  </ng-template>
 
-      <div class="button-container">
-        <p-button
-          label="Show Characters"
-          [disabled]="
-            characterData()[location.url] !== undefined &&
-            (characterData()[location.url] || []).length &&
-            (hideCharacters()[location.url] === false ||
-              hideCharacters()[location.url] === undefined)
-          "
-          (onClick)="showLocationResidents(location.url, location.residents)" />
-        @if (
+  <ng-template pTemplate="content">
+    @for (location of locationData()?.results; track $index) {
+      <p-card
+        styleClass="location-card"
+        [header]="location.name"
+        [subheader]="'Location type: ' + location.type">
+        <div class="p-subtitle" style="margin-bottom: 1rem">
+          Dimension: {{ location.dimension }}
+        </div>
+        @if (charactersLoading()[location.url] === true) {
+          <h3>Loading...</h3>
+        } @else if (error()[location.url]) {
+          <h3>An error ocurred loading the location's characters</h3>
+        } @else if (
+          characterData()[location.url] !== undefined &&
           (characterData()[location.url] || []).length &&
-          !hideCharacters()[location.url]
+          (hideCharacters()[location.url] === false ||
+            hideCharacters()[location.url] === undefined)
         ) {
-          <p-button
-            severity="secondary"
-            label="Hide Characters"
-            (onClick)="toggleLocationResidents(location.url, true)" />
+          <p-carousel
+            [value]="characterData()[location.url]"
+            [numVisible]="10"
+            [numScroll]="5"
+            [circular]="true"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-character pTemplate="item">
+              <div class="m-2">
+                <p-card>
+                  <ng-template pTemplate="header">
+                    <div style="width: 100%; text-align: center">
+                      <img
+                        style="display: block"
+                        alt="Card"
+                        lazy="true"
+                        [src]="character.image" />
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="content">
+                    <h5>{{ character.name }}</h5>
+                  </ng-template>
+                </p-card>
+              </div>
+            </ng-template>
+          </p-carousel>
+        } @else if (
+          (characterData()[location.url] || []).length === 0 &&
+          hideCharacters()[location.url] !== undefined
+        ) {
+          <h3>No residents in this location</h3>
         }
-      </div>
-    </p-card>
-  </p-panel>
-}
+
+        <div class="button-container">
+          <p-button
+            label="Show Characters"
+            [disabled]="
+              characterData()[location.url] !== undefined &&
+              (characterData()[location.url] || []).length &&
+              (hideCharacters()[location.url] === false ||
+                hideCharacters()[location.url] === undefined)
+            "
+            (onClick)="
+              showLocationResidents(location.url, location.residents)
+            " />
+          @if (
+            (characterData()[location.url] || []).length &&
+            !hideCharacters()[location.url]
+          ) {
+            <p-button
+              severity="secondary"
+              label="Hide Characters"
+              (onClick)="toggleLocationResidents(location.url, true)" />
+          }
+        </div>
+      </p-card>
+    }
+  </ng-template>
+</p-panel>

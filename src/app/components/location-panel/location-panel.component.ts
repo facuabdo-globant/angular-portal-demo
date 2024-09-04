@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -7,6 +7,7 @@ import { Character } from 'src/app/api/interfaces/character';
 import { CommonModule } from '@angular/common';
 import { LocationResponse } from 'src/app/api/interfaces/reponse';
 import { PanelModule } from 'primeng/panel';
+import { PortalRef } from 'src/app/portal/portal';
 import { RickAndMortyService } from 'src/app/api/rick-and-morty.service';
 import { lastValueFrom } from 'rxjs';
 
@@ -42,6 +43,9 @@ const responsiveOptions = [
   styleUrl: './location-panel.component.scss',
 })
 export class LocationPanelComponent {
+  rickAndMortyService = inject(RickAndMortyService);
+  portalRef = inject(PortalRef);
+  
   private episodeResponse: LocationResponse | undefined = undefined;
   charactersLoading = signal<{ [key: string]: boolean }>({});
   error = signal<{ [key: string]: boolean }>({});
@@ -50,8 +54,6 @@ export class LocationPanelComponent {
   hideCharacters = signal<{ [key: string]: boolean }>({});
 
   responsiveOptions = responsiveOptions;
-
-  constructor(private rickAndMortyService: RickAndMortyService) {}
 
   async ngOnInit(): Promise<void> {
     const locationData = await lastValueFrom(
@@ -103,5 +105,9 @@ export class LocationPanelComponent {
     this.hideCharacters.update(locationCharacters => {
       return { ...locationCharacters, [locationURL]: value };
     });
+  }
+
+  closePanel() {
+    this.portalRef.closePortal();
   }
 }

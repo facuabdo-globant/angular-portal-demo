@@ -1,12 +1,10 @@
-.panel-title {
-  padding: 1.25rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #ffffff;
-}
-
 .m-2 {
   margin: 0.5rem;
+}
+
+.p-panel-title {
+  width: 100%;
+  order: initial;
 }
 
 .button-container {
@@ -37,24 +35,30 @@
 }
 
 :host::ng-deep {
-  .p-card-body {
-    padding: 1rem;
-  }
+  .location-card {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 1.25rem;
 
-  .p-card-content {
-    padding: 0;
-    h5 {
-      margin: 0;
+    .p-card-body {
+      padding: 1rem;
     }
-  }
 
-  p-button > .p-button {
-    width: 100%;
-  }
+    .p-card-content {
+      padding: 0;
+      h5 {
+        margin: 0;
+      }
+    }
 
-  @media screen and (min-width: 767px) {
     p-button > .p-button {
-      width: auto;
+      width: 100%;
+    }
+
+    @media screen and (min-width: 767px) {
+      p-button > .p-button {
+        width: auto;
+      }
     }
   }
 }
