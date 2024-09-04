@@ -29,12 +29,15 @@ export class PortalService {
    */
   insertComponentInElementById<T>(
     component: ComponentType<T>,
-    id?: string,
+    id: string,
     externalPortalOutlet?: PortalOutlet
   ) {
-    const outletElement = id
-      ? (this.document.getElementById(id) as Element)
-      : (this.createContainerElement() as Element);
+    const outletElement = this.document.getElementById(id) as Element;
+
+    if (!outletElement) {
+      console.error("There's no element in the DOM with the specified ID");
+      return;
+    }
 
     const portalOutlet =
       externalPortalOutlet ||
@@ -49,12 +52,6 @@ export class PortalService {
     portalOutlet.attach<T, any>(portal);
 
     return new PortalRef(portalOutlet, portal);
-  }
-
-  private createContainerElement() {
-    const containerElement = this.document.createElement('div');
-    containerElement.id = `dynamic-container${Math.round(Math.random() * 100)}`;
-    return this.document.body.appendChild(containerElement);
   }
 }
 
