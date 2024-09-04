@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { FlagMap, ResourceCharacterMap } from 'src/app/types/panel.types';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -10,24 +11,7 @@ import { PanelModule } from 'primeng/panel';
 import { PortalRef } from 'src/app/portal/portal';
 import { RickAndMortyService } from 'src/app/api/rick-and-morty.service';
 import { lastValueFrom } from 'rxjs';
-
-const responsiveOptions = [
-  {
-    breakpoint: '1280px',
-    numVisible: 10,
-    numScroll: 5,
-  },
-  {
-    breakpoint: '1024px',
-    numVisible: 5,
-    numScroll: 2,
-  },
-  {
-    breakpoint: '767px',
-    numVisible: 1,
-    numScroll: 1,
-  },
-];
+import { secondaryPanelResponsiveOptions } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-episode-panel',
@@ -48,13 +32,13 @@ export class EpisodePanelComponent implements OnInit {
 
   private episodeResponse: EpisodeResponse | undefined = undefined;
 
-  charactersLoading = signal<{ [key: string]: boolean }>({});
-  error = signal<{ [key: string]: boolean }>({});
+  charactersLoading = signal<FlagMap>({});
+  error = signal<FlagMap>({});
   episodeData = signal<EpisodeResponse | undefined>(this.episodeResponse);
-  characterData = signal<{ [key: string]: Character[] }>({});
-  hideCharacters = signal<{ [key: string]: boolean }>({});
+  characterData = signal<ResourceCharacterMap>({});
+  hideCharacters = signal<FlagMap>({});
 
-  responsiveOptions = responsiveOptions;
+  responsiveOptions = secondaryPanelResponsiveOptions;
 
   async ngOnInit(): Promise<void> {
     const episodeData = await lastValueFrom(

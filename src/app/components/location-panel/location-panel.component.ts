@@ -1,4 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
+import {
+  FlagMap,
+  PromiseMap,
+  ResourceCharacterMap,
+} from 'src/app/types/panel.types';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -10,24 +15,7 @@ import { PanelModule } from 'primeng/panel';
 import { PortalRef } from 'src/app/portal/portal';
 import { RickAndMortyService } from 'src/app/api/rick-and-morty.service';
 import { lastValueFrom } from 'rxjs';
-
-const responsiveOptions = [
-  {
-    breakpoint: '1280px',
-    numVisible: 10,
-    numScroll: 5,
-  },
-  {
-    breakpoint: '1024px',
-    numVisible: 5,
-    numScroll: 2,
-  },
-  {
-    breakpoint: '767px',
-    numVisible: 1,
-    numScroll: 1,
-  },
-];
+import { secondaryPanelResponsiveOptions } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-location-panel',
@@ -45,15 +33,15 @@ const responsiveOptions = [
 export class LocationPanelComponent {
   rickAndMortyService = inject(RickAndMortyService);
   portalRef = inject(PortalRef);
-  
-  private episodeResponse: LocationResponse | undefined = undefined;
-  charactersLoading = signal<{ [key: string]: boolean }>({});
-  error = signal<{ [key: string]: boolean }>({});
-  locationData = signal<LocationResponse | undefined>(this.episodeResponse);
-  characterData = signal<{ [key: string]: Character[] }>({});
-  hideCharacters = signal<{ [key: string]: boolean }>({});
 
-  responsiveOptions = responsiveOptions;
+  private locationResponse: LocationResponse | undefined = undefined;
+  charactersLoading = signal<FlagMap>({});
+  error = signal<FlagMap>({});
+  locationData = signal<LocationResponse | undefined>(this.locationResponse);
+  characterData = signal<ResourceCharacterMap>({});
+  hideCharacters = signal<FlagMap>({});
+
+  responsiveOptions = secondaryPanelResponsiveOptions;
 
   async ngOnInit(): Promise<void> {
     const locationData = await lastValueFrom(
@@ -67,7 +55,7 @@ export class LocationPanelComponent {
     this.toggleLocationResidents(locationURL, false);
 
     if (!this.characterData()[locationURL]) {
-      const characterRequestArray: { [key: string]: Promise<any> } = {};
+      const characterRequestArray: PromiseMap = {};
 
       characterURLs.forEach(url => {
         characterRequestArray[url] = fetch(url).then((response: Response) =>
