@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -7,6 +7,7 @@ import { Character } from 'src/app/api/interfaces/character';
 import { CommonModule } from '@angular/common';
 import { EpisodeResponse } from 'src/app/api/interfaces/reponse';
 import { PanelModule } from 'primeng/panel';
+import { PortalRef } from 'src/app/portal/portal';
 import { RickAndMortyService } from 'src/app/api/rick-and-morty.service';
 import { lastValueFrom } from 'rxjs';
 
@@ -42,7 +43,11 @@ const responsiveOptions = [
   styleUrl: './episode-panel.component.scss',
 })
 export class EpisodePanelComponent implements OnInit {
+  rickAndMortyService = inject(RickAndMortyService);
+  portalRef = inject(PortalRef);
+
   private episodeResponse: EpisodeResponse | undefined = undefined;
+
   charactersLoading = signal<{ [key: string]: boolean }>({});
   error = signal<{ [key: string]: boolean }>({});
   episodeData = signal<EpisodeResponse | undefined>(this.episodeResponse);
@@ -51,7 +56,7 @@ export class EpisodePanelComponent implements OnInit {
 
   responsiveOptions = responsiveOptions;
 
-  constructor(private rickAndMortyService: RickAndMortyService) {}
+  constructor() {}
 
   async ngOnInit(): Promise<void> {
     const episodeData = await lastValueFrom(
@@ -103,5 +108,9 @@ export class EpisodePanelComponent implements OnInit {
     this.hideCharacters.update(characters => {
       return { ...characters, [episodeUrl]: value };
     });
+  }
+
+  closePanel() {
+    this.portalRef.closePortal();
   }
 }
