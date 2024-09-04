@@ -43,16 +43,13 @@ const responsiveOptions = [
 })
 export class CharacterPanelComponent {
   portalRef = inject(PortalRef);
+  rickAndMortyService = inject(RickAndMortyService);
 
-  characterData: Signal<CharacterResponse | undefined>;
+  characterData = toSignal(this.rickAndMortyService.getCharacters());
 
   responsiveOptions = responsiveOptions;
 
-  constructor(private rickAndMortyService: RickAndMortyService) {
-    this.characterData = toSignal(this.rickAndMortyService.getCharacters());
-  }
-
-  closeCharacterPanel(){
+  closeCharacterPanel() {
     this.portalRef.closePortal();
   }
 }

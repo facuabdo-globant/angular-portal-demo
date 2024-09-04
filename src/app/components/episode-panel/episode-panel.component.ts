@@ -56,8 +56,6 @@ export class EpisodePanelComponent implements OnInit {
 
   responsiveOptions = responsiveOptions;
 
-  constructor() {}
-
   async ngOnInit(): Promise<void> {
     const episodeData = await lastValueFrom(
       this.rickAndMortyService.getEpisodes()
