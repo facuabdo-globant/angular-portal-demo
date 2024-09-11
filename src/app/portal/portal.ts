@@ -1,8 +1,4 @@
-import {
-  ComponentFactoryResolver,
-  Injector,
-  ViewContainerRef,
-} from '@angular/core';
+import { Injector, ViewContainerRef } from '@angular/core';
 import { IPortalOutlet, PortalOutlet } from './portal-outlet';
 
 export interface ComponentType<T> {
@@ -40,20 +36,17 @@ export class ComponentPortal<T> extends Portal<T> {
   viewContainerRef?: ViewContainerRef | null;
   injector?: Injector | null;
   projectableNodes?: Node[][] | null;
-  componentFactoryResolver?: ComponentFactoryResolver | null;
 
   constructor(
     component: ComponentType<T>,
     viewContainerRef?: ViewContainerRef | null,
     injector?: Injector | null,
-    componentFactoryResolver?: ComponentFactoryResolver | null,
     projectableNodes?: Node[][] | null
   ) {
     super();
     this.component = component;
     this.viewContainerRef = viewContainerRef;
     this.injector = injector;
-    this.componentFactoryResolver = componentFactoryResolver;
     this.projectableNodes = projectableNodes;
   }
 }
