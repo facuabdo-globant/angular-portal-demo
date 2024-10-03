@@ -24,14 +24,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './character-panel.component.scss',
 })
 export class CharacterPanelComponent {
-  portalRef = inject(PortalRef);
   rickAndMortyService = inject(RickAndMortyService);
 
   characterData = toSignal(this.rickAndMortyService.getCharacters());
 
   responsiveOptions = characterPanelResponsiveOptions;
-
-  closeCharacterPanel() {
-    this.portalRef.closePortal();
-  }
 }

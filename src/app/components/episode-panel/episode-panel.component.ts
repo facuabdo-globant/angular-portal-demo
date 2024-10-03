@@ -28,7 +28,6 @@ import { secondaryPanelResponsiveOptions } from 'src/app/utils/constants';
 })
 export class EpisodePanelComponent implements OnInit {
   rickAndMortyService = inject(RickAndMortyService);
-  portalRef = inject(PortalRef);
 
   private episodeResponse: EpisodeResponse | undefined = undefined;
 
@@ -90,9 +89,5 @@ export class EpisodePanelComponent implements OnInit {
     this.hideCharacters.update(characters => {
       return { ...characters, [episodeUrl]: value };
     });
-  }
-
-  closePanel() {
-    this.portalRef.closePortal();
   }
 }
