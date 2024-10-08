@@ -16,7 +16,9 @@
       label="Show Locations"
       (onClick)="showLocationsPanel()" />
   </nav>
-  <section id="dynamic-container" class="widget-container"></section>
+  <section class="widget-container">
+    <ng-template #dynamicContainer></ng-template>
+  </section>
   <footer class="credits">
     <p>
       Built using the <a href="https://rickandmortyapi.com">Rick & Morty API</a>

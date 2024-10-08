@@ -5,7 +5,6 @@ import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
 import { PanelModule } from 'primeng/panel';
-import { PortalRef } from 'src/app/portal/portal';
 import { RickAndMortyService } from './../../api/rick-and-morty.service';
 import { characterPanelResponsiveOptions } from 'src/app/utils/constants';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -24,14 +23,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './character-panel.component.scss',
 })
 export class CharacterPanelComponent {
-  portalRef = inject(PortalRef);
   rickAndMortyService = inject(RickAndMortyService);
 
   characterData = toSignal(this.rickAndMortyService.getCharacters());
 
   responsiveOptions = characterPanelResponsiveOptions;
-
-  closeCharacterPanel() {
-    this.portalRef.closePortal();
-  }
 }

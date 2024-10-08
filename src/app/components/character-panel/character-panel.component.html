@@ -1,13 +1,6 @@
 <p-panel>
   <ng-template pTemplate="header">
     <p class="p-panel-title">Rick & Morty Characters</p>
-    <div>
-      <p-button
-        icon="pi pi-times"
-        [outlined]="true"
-        severity="secondary"
-        (onClick)="closeCharacterPanel()" />
-    </div>
   </ng-template>
   <p-carousel
     [value]="characterData()?.results || []"

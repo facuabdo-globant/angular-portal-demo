@@ -1,7 +1,12 @@
+import {
+  Component,
+  ComponentRef,
+  ViewContainerRef,
+  viewChild,
+} from '@angular/core';
+
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { PortalRef } from './portal/portal';
 import { PortalService } from './portal/portal.service';
 import { RickAndMortyService } from './api/rick-and-morty.service';
 
@@ -14,55 +19,41 @@ import { RickAndMortyService } from './api/rick-and-morty.service';
   providers: [PortalService, RickAndMortyService],
 })
 export class AppComponent {
-  portalRef: PortalRef<any> | undefined;
-  constructor(private portalService: PortalService) {}
+  dynamicContainerRef = viewChild('dynamicContainer', {
+    read: ViewContainerRef,
+  });
+
+  currentComponent: ComponentRef<any> | undefined;
+
+  constructor() {}
 
   async showCharactersPanel() {
-    if (this.portalRef) {
-      this.closePortal();
-    }
-
     const { CharacterPanelComponent } = await import(
       './components/character-panel/character-panel.component'
     );
 
-    this.portalRef = this.portalService.insertComponentInElementById(
-      CharacterPanelComponent,
-      'dynamic-container'
+    this.currentComponent = this.dynamicContainerRef()?.createComponent(
+      CharacterPanelComponent
     );
   }
 
   async showEpisodesPanel() {
-    if (this.portalRef) {
-      this.closePortal();
-    }
-
     const { EpisodePanelComponent } = await import(
       './components/episode-panel/episode-panel.component'
     );
 
-    this.portalRef = this.portalService.insertComponentInElementById(
-      EpisodePanelComponent,
-      'dynamic-container'
+    this.currentComponent = this.dynamicContainerRef()?.createComponent(
+      EpisodePanelComponent
     );
   }
 
   async showLocationsPanel() {
-    if (this.portalRef) {
-      this.closePortal();
-    }
-
     const { LocationPanelComponent } = await import(
       './components/location-panel/location-panel.component'
     );
 
-    this.portalRef = this.portalService.insertComponentInElementById(
-      LocationPanelComponent,
-      'dynamic-container'
+    this.currentComponent = this.dynamicContainerRef()?.createComponent(
+      LocationPanelComponent
     );
-  }
-
-  closePortal() {
-    this.portalRef?.closePortal();
   }
 }

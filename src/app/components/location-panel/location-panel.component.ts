@@ -32,7 +32,6 @@ import { secondaryPanelResponsiveOptions } from 'src/app/utils/constants';
 })
 export class LocationPanelComponent {
   rickAndMortyService = inject(RickAndMortyService);
-  portalRef = inject(PortalRef);
 
   private locationResponse: LocationResponse | undefined = undefined;
   charactersLoading = signal<FlagMap>({});
@@ -93,9 +92,5 @@ export class LocationPanelComponent {
     this.hideCharacters.update(locationCharacters => {
       return { ...locationCharacters, [locationURL]: value };
     });
-  }
-
-  closePanel() {
-    this.portalRef.closePortal();
   }
 }
